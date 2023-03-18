@@ -27,6 +27,21 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- 科大讯飞  语音合成 -->
+        <dependency>
+            <groupId>Msc</groupId>
+            <artifactId>Msc</artifactId>
+            <version>8.8.8.8</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Msc.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -34,6 +49,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.sinoecare.vc2.app.VillcloudAppApplication</mainClass>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
         </plugins>
     </build>
