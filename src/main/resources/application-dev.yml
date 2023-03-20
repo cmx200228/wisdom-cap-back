@@ -1,2 +1,8 @@
 server:
   port: 18762
+image:
+  path: IMAGE/pic.jpg
+  api_key: e0f3f05fce831621feaf4a7fdc51f61f
+  api_secret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
+  api_id: 8627a2f9
+  request_url: https://cn-east-1.api.xf-yun.com/v1/ocr
