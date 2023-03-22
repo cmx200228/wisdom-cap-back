@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: dev
+msc:
+  appId: f590a1b8
