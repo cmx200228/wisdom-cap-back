@@ -6,6 +6,7 @@ import org.opencv.core.Mat;
 import org.springframework.stereotype.Service;
 
 /**
+ * 图片处理服务实现类
  * @author 陈蒙欣
  * @date 2023/3/21 9:04
  */
@@ -20,7 +21,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String enhanceThePicture(String imageUrl) {
         Mat mat = OpenCVUtil.loadImage(imageUrl);
-        Mat mat2 = OpenCVUtil.imageContrastEnhance(mat);
+        Mat mat2 = OpenCVUtil.imageDefinitionEnhance(mat);
         return OpenCVUtil.saveImage(mat2);
     }
 

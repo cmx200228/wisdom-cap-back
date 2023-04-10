@@ -1,8 +1,12 @@
 server:
   port: 18762
 image:
-  path: IMAGE/pic.jpg
+  path: IMAGE/pic.jpg #原图片存放地址
   api_key: e0f3f05fce831621feaf4a7fdc51f61f
   api_secret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
   api_id: 8627a2f9
   request_url: https://cn-east-1.api.xf-yun.com/v1/ocr
+gaode:
+  key: ec8868d8d9367d24f98fa85b8b7bf1ba
+  url: https://lbs.amap.com/api/webservice/guide/api/georegeov
+  private_key: db7cb4bcafa68eeb480c4a9eec13e1d7

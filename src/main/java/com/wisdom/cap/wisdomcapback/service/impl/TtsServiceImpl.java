@@ -3,24 +3,32 @@ package com.wisdom.cap.wisdomcapback.service.impl;
 import com.iflytek.cloud.speech.SpeechError;
 import com.iflytek.cloud.speech.SynthesizeToUriListener;
 import com.wisdom.cap.wisdomcapback.service.TtsService;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
+/**文字转语音实现类
  * @author 86138
  * @data
  */
+@Service("ttsService")
 public class TtsServiceImpl implements TtsService, SynthesizeToUriListener {
-    private static Map<String, Boolean> voiceFile=new HashMap<String,Boolean>();
+    private static Map<String, Boolean> voiceFile=new HashMap<>();
 
-    //设置生成文件队列
+    /**
+     * 设置生成文件队列
+     */
     public static void setVoice(String name,Boolean have){
         TtsServiceImpl.voiceFile.put(name,have);
     }
 
-    //查看文件是否在队列中
+    /**
+     * 查看文件是否在队列中
+     * @param name 文件名
+     * @return 是否存在
+     */
     public static  Boolean checkDone(String name){
         Boolean don=TtsServiceImpl.voiceFile.get(name);
         if(don==null){
@@ -29,12 +37,18 @@ public class TtsServiceImpl implements TtsService, SynthesizeToUriListener {
         return true;
     }
 
-    //清除队列中的信息
+    /**
+     * 清除队列中的信息
+     * @param name 文件名
+     */
     public static void delDone(String name){
         TtsServiceImpl.voiceFile.remove(name);
     }
 
-    //返回合成监听器
+    /**
+     * 返回合成监听器
+     * @return 合成监听器
+     */
     public static SynthesizeToUriListener getSynthesize(){
         return new SynthesizeToUriListener() {
             @Override
@@ -83,15 +97,20 @@ public class TtsServiceImpl implements TtsService, SynthesizeToUriListener {
 
     }
 
-    //获取文件名
+    /**
+     * 获取文件名
+     * @param name 文件名
+     * @return 文件路径
+     */
     public static String getFileName(String name){
         //获取文件名
-        StringBuffer fileName=new StringBuffer(System.getProperty("user.dir"))
+        StringBuilder fileName=new StringBuilder(System.getProperty("user.dir"))
                 .append(File.separator).append("src")
                 .append(File.separator).append("main")
-                .append(File.separator).append(name); //获取文件路径
+                //获取文件路径
+                .append(File.separator).append(name);
 
-        System.out.println(fileName.toString());
+        System.out.println(fileName);
 
         return fileName.toString();
     }

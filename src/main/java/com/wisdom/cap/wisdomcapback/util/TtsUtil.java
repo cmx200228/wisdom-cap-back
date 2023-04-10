@@ -11,49 +11,49 @@ import java.io.IOException;
  * @data
  */
 public class TtsUtil {
-    public final char fileID[] = {'R', 'I', 'F', 'F'};
+    public final char[] fileID = {'R', 'I', 'F', 'F'};
     public int fileLength;
-    public char wavTag[] = {'W', 'A', 'V', 'E'};
-    public char FmtHdrID[] = {'f', 'm', 't', ' '};
-    public int FmtHdrLeth;
-    public short FormatTag;
-    public short Channels;
-    public int SamplesPerSec;
-    public int AvgBytesPerSec;
-    public short BlockAlign;
-    public short BitsPerSample;
-    public char DataHdrID[] = {'d', 'a', 't', 'a'};
-    public int DataHdrLeth;
+    public char[] wavTag = {'W', 'A', 'V', 'E'};
+    public char[] fmtHdrID = {'f', 'm', 't', ' '};
+    public int fmtHdrLength;
+    public short formatTag;
+    public short channels;
+    public int samplesPerSec;
+    public int avgBytesPerSec;
+    public short blockAlign;
+    public short bitsPerSample;
+    public char[] dataHdrID = {'d', 'a', 't', 'a'};
+    public int dataHdrLength;
 
     public byte[] getHeader() throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        WriteChar(bos, fileID);
-        WriteInt(bos, fileLength);
-        WriteChar(bos, wavTag);
-        WriteChar(bos, FmtHdrID);
-        WriteInt(bos, FmtHdrLeth);
-        WriteShort(bos, FormatTag);
-        WriteShort(bos, Channels);
-        WriteInt(bos, SamplesPerSec);
-        WriteInt(bos, AvgBytesPerSec);
-        WriteShort(bos, BlockAlign);
-        WriteShort(bos, BitsPerSample);
-        WriteChar(bos, DataHdrID);
-        WriteInt(bos, DataHdrLeth);
+        writeChar(bos, fileID);
+        writeInt(bos, fileLength);
+        writeChar(bos, wavTag);
+        writeChar(bos, fmtHdrID);
+        writeInt(bos, fmtHdrLength);
+        writeShort(bos, formatTag);
+        writeShort(bos, channels);
+        writeInt(bos, samplesPerSec);
+        writeInt(bos, avgBytesPerSec);
+        writeShort(bos, blockAlign);
+        writeShort(bos, bitsPerSample);
+        writeChar(bos, dataHdrID);
+        writeInt(bos, dataHdrLength);
         bos.flush();
         byte[] r = bos.toByteArray();
         bos.close();
         return r;
     }
 
-    private void WriteShort(ByteArrayOutputStream bos, int s) throws IOException {
+    private void writeShort(ByteArrayOutputStream bos, int s) throws IOException {
         byte[] mybyte = new byte[2];
         mybyte[1] = (byte) ((s << 16) >> 24);
         mybyte[0] = (byte) ((s << 24) >> 24);
         bos.write(mybyte);
     }
 
-    private void WriteInt(ByteArrayOutputStream bos, int n) throws IOException {
+    private void writeInt(ByteArrayOutputStream bos, int n) throws IOException {
         byte[] buf = new byte[4];
         buf[3] = (byte) (n >> 24);
         buf[2] = (byte) ((n << 8) >> 24);
@@ -62,7 +62,7 @@ public class TtsUtil {
         bos.write(buf);
     }
 
-    private void WriteChar(ByteArrayOutputStream bos, char[] id) {
+    private void writeChar(ByteArrayOutputStream bos, char[] id) {
         for (char c : id) {
             bos.write(c);
         }

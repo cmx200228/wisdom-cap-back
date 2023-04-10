@@ -14,6 +14,9 @@ import static org.bytedeco.opencv.helper.opencv_imgcodecs.cvSaveImage;
  * @date 2023/3/21 11:40
  */
 public class CameraUtil {
+    private CameraUtil() {
+        throw new IllegalStateException("工具类无需实例化");
+    }
     private static final Logger logger = LoggerFactory.getLogger(CameraUtil.class);
 
     /**

@@ -1,6 +1,8 @@
 package com.wisdom.cap.wisdomcapback.util;
 
 import com.alibaba.fastjson2.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +31,7 @@ import java.util.TimeZone;
  */
 @Component
 public class PrintedWordUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrintedWordUtil.class);
     @Value("${image.request_url}")
     private String requestUrl;
 
@@ -44,8 +47,13 @@ public class PrintedWordUtil {
     @Value("${image.api_key}")
     private String appKey;
 
+    /**
+     * 读取文件内容
+     * @throws  Exception 读取文件异常
+     * @return 返回文件内容
+     */
     public String getRequest() throws Exception {
-        URL realUrl = new URL(buildRequetUrl());
+        URL realUrl = new URL(buildRequestUrl());
         URLConnection connection = realUrl.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
         httpURLConnection.setDoInput(true);
@@ -67,7 +75,11 @@ public class PrintedWordUtil {
         return readAllBytes(is , StandardCharsets.UTF_8.name());
     }
 
-    public String buildRequetUrl(){
+    /**
+     * 拼接请求url
+     * @return 返回拼接后的url
+     */
+    public String buildRequestUrl(){
         URL url;
         // 替换调schema前缀 ，原因是URL库不支持解析包含ws,wss schema的url
         String  httpRequestUrl = requestUrl.replace("ws://", "http://").replace("wss://","https://" );
