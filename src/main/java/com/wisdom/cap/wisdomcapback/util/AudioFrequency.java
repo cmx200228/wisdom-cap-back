@@ -70,43 +70,33 @@ public class AudioFrequency {
      * 播放pcm格式音频
      * @param path 音频路径
      */
-    public static void pcm(String path){
-        // 设置音频参数
-        AudioFormat audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, false);
-        // 获取音频输入流
-        AudioInputStream audioInputStream = null;
-        SourceDataLine sourceDataLine = null;
-        try {
-            audioInputStream = AudioSystem.getAudioInputStream(new File(path));
-            // 打开音频输出流
-            sourceDataLine = AudioSystem.getSourceDataLine(audioFormat);
-            sourceDataLine.open(audioFormat);
-            // 开始播放
-            sourceDataLine.start();
-            int count;
-            byte[] tempBuffer = new byte[1024];
-            while ((count = audioInputStream.read(tempBuffer, 0, tempBuffer.length)) != -1) {
-                if (count > 0) {
-                    // 写入数据到混频器
-                    sourceDataLine.write(tempBuffer, 0, count);
-                }
-            }
-        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-            LOGGER.error("pcm音频播放失败", e);
-            throw new BusinessException(BusinessExceptionEnum.VOICE_PLAY);
-        }finally {
-            // 关闭流
-            assert sourceDataLine != null;
-            sourceDataLine.drain();
-            sourceDataLine.close();
+    public static void pcm(String path) throws IOException, LineUnavailableException {
+        try (FileInputStream fis = new FileInputStream(path)){
+            AudioFormat.Encoding encoding =  new AudioFormat.Encoding("PCM_SIGNED");
+            //编码格式，采样率，每个样本的位数，声道，帧长（字节），帧数，是否按big-endian字节顺序存储
+            AudioFormat format = new AudioFormat(encoding,8000, 16, 1, 2, 8000 ,false);
+            SourceDataLine auline;
+            DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+
             try {
-                assert audioInputStream != null;
-                audioInputStream.close();
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage() , "关闭流失败 ：{}");
+                auline = (SourceDataLine) AudioSystem.getLine(info);
+                auline.open(format);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
             }
+            auline.start();
+            byte[] b = new byte[256];
+            try {
+                while(fis.read(b)>0) {
+                    auline.write(b, 0, b.length);
+                }
+                auline.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-
     }
 }
