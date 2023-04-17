@@ -82,6 +82,16 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>./</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.so</include>
+                    <include>**/*.dll</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>

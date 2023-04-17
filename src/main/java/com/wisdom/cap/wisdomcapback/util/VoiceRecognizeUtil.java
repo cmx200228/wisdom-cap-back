@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 语音识别工具类
@@ -19,6 +20,7 @@ import java.util.List;
  */
 public class VoiceRecognizeUtil {
     private static final Logger logger = LoggerFactory.getLogger(VoiceRecognizeUtil.class);
+    public static LinkedBlockingQueue<String> lbq = new LinkedBlockingQueue<>();
     /**
      * 语音听写对象， 初始化听写对象
      */
@@ -26,8 +28,7 @@ public class VoiceRecognizeUtil {
     /**
      * 监听输入端
      */
-    public static String voiceChangeStart() {
-        List<String> result = new ArrayList<>();
+    public static LinkedBlockingQueue voiceChangeStart() {
         if (!mIat.isListening()) {
             mIat.startListening(new AbstractRecognizerListener() {
                 @Override
@@ -35,14 +36,14 @@ public class VoiceRecognizeUtil {
                     //如果要解析json结果，请考本项目示例的 com.iflytek.util.JsonParser类
                     String text = parseIatResult(results.getResultString());
                     logger.debug(text);
-                    result.add(text);
+                    lbq.add(text);
                 }
             });
-
         } else {
             mIat.stopListening();
+            lbq.add("over");
         }
-        return !result.isEmpty() ? result.get(0) : "";
+        return lbq;
     }
 
     /**

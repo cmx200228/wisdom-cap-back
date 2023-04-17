@@ -12,6 +12,7 @@ class CameraUtilTest {
 
     @Test
     void capture() {
-        CameraUtil.capture("F:/project/wisdom-cap-back/IMAGE/pic1.jpg");
+        CameraUtil.capture("D:/IDEA/Project/A-Project/wisdom-cap-back/IMAGE/pic1.jpg");
+
     }
 }
