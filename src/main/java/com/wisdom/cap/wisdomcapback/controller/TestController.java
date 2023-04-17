@@ -1,5 +1,6 @@
 package com.wisdom.cap.wisdomcapback.controller;
 
+import com.wisdom.cap.wisdomcapback.util.CameraUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,17 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @GetMapping("/news")
-    public String getNews() {
-        return "{\n" +
-                "    \"category\": \"cam.ch_en\",\n" +
-                "    \"pages\": [\n" +
-                "        {\n" +
-                "            \"angle\": 0.380126953125,\n" +
-                "            \"exception\": 0,\n" +
-                "            \"height\": 4624\n" +
-                "}\n" +
-                "]\n" +
-                "}";
+    @GetMapping("/pictrue")
+    public void getNews() {
+        //树莓派保存地址
+        CameraUtil.capture("/home/zhihuimao/Downloads/pic.jpg");
+//        CameraUtil.capture("F:/pic.jpg");
     }
 }

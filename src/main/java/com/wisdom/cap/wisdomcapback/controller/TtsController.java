@@ -8,8 +8,8 @@ import com.wisdom.cap.wisdomcapback.service.impl.TtsServiceImpl;
 import com.wisdom.cap.wisdomcapback.util.TtsUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
@@ -27,12 +27,12 @@ import java.io.IOException;
 public class TtsController {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(TtsController.class);
     @Value("${msc.appId}")
-    private static String APP_ID;
+    private String APP_ID;
 
-    @RequestMapping (value = "/TTS",method = RequestMethod.POST)
-    public static String changeToVoice(String data) throws IOException{
+    @GetMapping(value = "/TTS")
+    public String changeToVoice(String data) throws IOException{
         //官网的id
-        SpeechUtility.createUtility(APP_ID);  //这里设置在讯飞官网上设置的appid......
+        SpeechUtility.createUtility("appid="+APP_ID);  //这里设置在讯飞官网上设置的appid......
         //合成监听器
         SynthesizeToUriListener synthesizeToUriListener=TtsServiceImpl.getSynthesize();
         //默认是生成pcm文件，所以后面有一步是转换成wav文件才能正常播放
@@ -80,7 +80,7 @@ public class TtsController {
         return mp3Path;
     }
 
-    private static void deleteFile(String filename) {
+    private void deleteFile(String filename) {
         File file=new File(filename);
         file.delete();
     }
@@ -88,7 +88,7 @@ public class TtsController {
     /**
      * 将pcm转换为MP3
      */
-    private static void pcmToMP3(String src, String target) throws IOException {
+    private void pcmToMP3(String src, String target) throws IOException {
         FileInputStream fis = new FileInputStream(src);
         FileOutputStream fos = new FileOutputStream(target);
 

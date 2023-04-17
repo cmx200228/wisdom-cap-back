@@ -15,6 +15,8 @@
     <description>wisdom-cap-back</description>
     <properties>
         <java.version>1.8</java.version>
+<!--        打包时忽略测试文件-->
+        <skipTests>true</skipTests>
     </properties>
     <dependencies>
         <dependency>
@@ -48,6 +50,7 @@
             <artifactId>fastjson2</artifactId>
             <version>2.0.23</version>
         </dependency>
+<!--        javacv用于拍摄和图像处理-->
         <!-- https://mvnrepository.com/artifact/org.bytedeco/javacv-platform -->
         <dependency>
             <groupId>org.bytedeco</groupId>
@@ -61,12 +64,26 @@
 <!--            <artifactId>opencv</artifactId>-->
 <!--            <version>4.0.1-1.4.4</version>-->
 <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.opencv</groupId>-->
+<!--            <artifactId>opencv</artifactId>-->
+<!--            <version>4.5.4</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/lib/opencv-454.jar</systemPath>-->
+<!--        </dependency>-->
+        <!--        发送http请求-->
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
         <dependency>
-            <groupId>org.opencv</groupId>
-            <artifactId>opencv</artifactId>
-            <version>4.5.4</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/opencv-454.jar</systemPath>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.14</version>
+        </dependency>
+<!--        音频播放工具-->
+        <!-- https://mvnrepository.com/artifact/javazoom/jlayer -->
+        <dependency>
+            <groupId>javazoom</groupId>
+            <artifactId>jlayer</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
     </dependencies>
@@ -77,19 +94,59 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.sinoecare.vc2.app.VillcloudAppApplication</mainClass>
+                    <mainClass>com.wisdom.cap.wisdomcapback.WisdomCapBackApplication</mainClass>
+                    <fork>true</fork>
                     <includeSystemScope>true</includeSystemScope>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <optimize>true</optimize>
+                    <!-- 导入\lib下的本地jar包 -->
+                    <compilerArguments>
+                        <extdirs>${project.basedir}\lib</extdirs>
+                    </compilerArguments>
                 </configuration>
             </plugin>
         </plugins>
         <resources>
             <resource>
-                <directory>./</directory>
-                <filtering>true</filtering>
+                <directory>lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
                 <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>./</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.html</include>
+                    <include>**/*.js</include>
+                    <include>**/*.css</include>
+                    <include>**/*.map</include>
+                    <include>**/*.jpg</include>
+                    <include>**/*.png</include>
+                    <include>**/*.CAB</include>
+                    <include>**/*.ico</include>
+                    <include>**/banner.txt</include>
                     <include>**/*.so</include>
                     <include>**/*.dll</include>
                 </includes>
+                <filtering>true</filtering>
             </resource>
         </resources>
     </build>
