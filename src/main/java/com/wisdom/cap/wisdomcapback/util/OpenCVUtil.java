@@ -23,10 +23,6 @@ public class OpenCVUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenCVUtil.class);
 
-    static {
-        System.loadLibrary("opencv_java454");
-    }
-
     /**
      * 加载图片
      * @param imagePath 图片路径

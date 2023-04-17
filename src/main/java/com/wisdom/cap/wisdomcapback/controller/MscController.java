@@ -55,7 +55,6 @@ public class MscController{
             String content = jsonObject2.getString("content");
             stringBuilder.append(content);
         }
-//        return stringBuilder.toString();
         return jsonObject1.toJSONString();
     }
 

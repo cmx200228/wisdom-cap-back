@@ -8,7 +8,16 @@ public enum BusinessExceptionEnum {
     /**
      * 语音合成错误
      */
-    VOICE_EXECUTION(10001 , "语音合成错误");
+    VOICE_EXECUTION(10001 , "语音合成错误"),
+    /**
+     * 语音播放错误
+     */
+    VOICE_PLAY(10002 , "语音播放错误"),
+    /**
+     * 系统错误
+     */
+    SYSTEM_ERROR(20001 , "系统错误");
+
     /**
      * 错误码
      */

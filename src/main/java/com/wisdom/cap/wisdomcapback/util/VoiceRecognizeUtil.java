@@ -40,6 +40,7 @@ public class VoiceRecognizeUtil {
                 }
             });
         } else {
+            logger.error("语音识别失败");
             mIat.stopListening();
             lbq.add("over");
         }

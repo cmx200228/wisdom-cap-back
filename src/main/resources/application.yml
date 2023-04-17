@@ -1,6 +1,7 @@
 spring:
   profiles:
-    active: dev
+    active: dev #开发
+#    active: prod 线上
 msc:
   appId: f590a1b8
 back:
