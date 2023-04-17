@@ -1,7 +1,7 @@
 server:
   port: 18762
 image:
-  path: IMAGE/pic.jpg #原图片存放地址
+  path: IMAGE/pic1.jpg #原图片存放地址
   api_key: e0f3f05fce831621feaf4a7fdc51f61f
   api_secret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
   api_id: 8627a2f9
