@@ -4,5 +4,9 @@ spring:
 #    active: prod 线上
 msc:
   appId: f590a1b8
+  APISecret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
+  APIKey: e0f3f05fce831621feaf4a7fdc51f61f
+
+
 back:
   version: 1.0.0
