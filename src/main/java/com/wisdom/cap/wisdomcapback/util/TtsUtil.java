@@ -1,71 +1,63 @@
 package com.wisdom.cap.wisdomcapback.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
 
-/**
- *
- * TTS-文字转语音的工具类
- *
- * @author 86138
- * @data
- */
-public class TtsUtil {
-    public final char[] fileID = {'R', 'I', 'F', 'F'};
-    public int fileLength;
-    public char[] wavTag = {'W', 'A', 'V', 'E'};
-    public char[] fmtHdrID = {'f', 'm', 't', ' '};
-    public int fmtHdrLength;
-    public short formatTag;
-    public short channels;
-    public int samplesPerSec;
-    public int avgBytesPerSec;
-    public short blockAlign;
-    public short bitsPerSample;
-    public char[] dataHdrID = {'d', 'a', 't', 'a'};
-    public int dataHdrLength;
+import com.iflytek.cloud.speech.*;
+import org.springframework.beans.factory.annotation.Value;
 
-    public byte[] getHeader() throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        writeChar(bos, fileID);
-        writeInt(bos, fileLength);
-        writeChar(bos, wavTag);
-        writeChar(bos, fmtHdrID);
-        writeInt(bos, fmtHdrLength);
-        writeShort(bos, formatTag);
-        writeShort(bos, channels);
-        writeInt(bos, samplesPerSec);
-        writeInt(bos, avgBytesPerSec);
-        writeShort(bos, blockAlign);
-        writeShort(bos, bitsPerSample);
-        writeChar(bos, dataHdrID);
-        writeInt(bos, dataHdrLength);
-        bos.flush();
-        byte[] r = bos.toByteArray();
-        bos.close();
-        return r;
+/*
+public class TtsUtil{
+
+    @Value("${msc.appId}")
+    private static String appId;
+    @Value("${msc.apiKey}")
+    private static String apiKey;
+    @Value("${msc.apiSecret}")
+    private static String apiSecret;
+
+    private static SpeechSynthesizer speechSynthesizer;
+
+    static {
+        SpeechUtility.createUtility(SpeechConstant.APPID + "=" + appId);
+        speechSynthesizer = SpeechSynthesizer.createSynthesizer();
+        speechSynthesizer.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        speechSynthesizer.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
+        speechSynthesizer.setParameter(SpeechConstant.SPEED, "50");
+        speechSynthesizer.setParameter(SpeechConstant.VOLUME, "80");
+        speechSynthesizer.setParameter(SpeechConstant.PITCH, "50");
+        speechSynthesizer.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
     }
 
-    private void writeShort(ByteArrayOutputStream bos, int s) throws IOException {
-        byte[] mybyte = new byte[2];
-        mybyte[1] = (byte) ((s << 16) >> 24);
-        mybyte[0] = (byte) ((s << 24) >> 24);
-        bos.write(mybyte);
-    }
+    public static void textToSpeech(String text, String filePath) {
+        SynthesizeToUriListener synthesizeToUriListener = new SynthesizeToUriListener() {
+            public void onBufferProgress(int progress) {
+            }
 
-    private void writeInt(ByteArrayOutputStream bos, int n) throws IOException {
-        byte[] buf = new byte[4];
-        buf[3] = (byte) (n >> 24);
-        buf[2] = (byte) ((n << 8) >> 24);
-        buf[1] = (byte) ((n << 16) >> 24);
-        buf[0] = (byte) ((n << 24) >> 24);
-        bos.write(buf);
-    }
+            public void onSynthesizeCompleted(String uri, SpeechError error) {
+                if (error == null) {
+                    try {
+                        FileOutputStream fos = new FileOutputStream(new File(filePath));
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while ((len = speechSynthesizer.read(buffer, 0, buffer.length)) != -1) {
+                            fos.write(buffer, 0, len);
+                        }
+                        fos.flush();
+                        fos.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
-    private void writeChar(ByteArrayOutputStream bos, char[] id) {
-        for (char c : id) {
-            bos.write(c);
-        }
-    }
+            @Override
+            public void onEvent(int i, int i1, int i2, int i3, Object o, Object o1) {
 
+            }
+        };
+
+        speechSynthesizer.synthesizeToUri(text, filePath, synthesizeToUriListener);
+    }
 }
+*/
