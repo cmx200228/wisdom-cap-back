@@ -149,7 +149,7 @@
                 </includes>
             </resource>
             <resource>
-                <directory>./</directory>
+                <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
@@ -163,10 +163,16 @@
                     <include>**/*.CAB</include>
                     <include>**/*.ico</include>
                     <include>**/banner.txt</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>./</directory>
+                <filtering>true</filtering>
+                <includes>
                     <include>**/*.so</include>
                     <include>**/*.dll</include>
                 </includes>
-                <filtering>true</filtering>
             </resource>
         </resources>
     </build>
