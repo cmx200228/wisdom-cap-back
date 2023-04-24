@@ -1,27 +1,24 @@
 package com.wisdom.cap.wisdomcapback.controller;
 
 import com.wisdom.cap.wisdomcapback.service.impl.TtsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.FileOutputStream;
+import javax.annotation.Resource;
 import java.io.IOException;
 
 @Controller
 public class TtsController {
-    @Autowired
+    @Resource
     private TtsServiceImpl ttsService;
 
     @GetMapping("/speech")
-    public ResponseEntity<byte[]> speech(@RequestParam String text) throws IOException {
-        byte[] speechBytes = ttsService.textToSpeech(text);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDisposition(ContentDisposition.builder("attachment").filename("speech.mp3").build());
-        return new ResponseEntity<>(speechBytes, headers, HttpStatus.OK);
+    public ResponseEntity<String> speech(@RequestParam String text) throws IOException {
+        String s = ttsService.textToSpeech(text);
+        return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
     /**
@@ -33,16 +30,24 @@ public class TtsController {
 
     @GetMapping("/save")
     public ResponseEntity<String> save(@RequestParam String text) throws IOException {
-        byte[] speechBytes = ttsService.textToSpeech(text);
-
-        // 获取当前项目路径
-        String projectPath = System.getProperty("user.dir");
-
-        // 拼接文件路径
-        String filePath = projectPath + "/speech.mp3";
-        try (FileOutputStream fos = new FileOutputStream(filePath)) {
-            fos.write(speechBytes);
-        }
+//        byte[] speechBytes = ttsService.textToSpeech(text);
+//
+//        // 获取当前项目路径
+//        String projectPath = System.getProperty("user.dir");
+//
+//        // 拼接文件路径
+//        String filePath = projectPath + "/speech.wav";
+//        AudioInputStream audioInputStream;
+//        try {
+//            audioInputStream = AudioSystem.getAudioInputStream(new ByteArrayInputStream(speechBytes));
+//        } catch (UnsupportedAudioFileException e) {
+//            throw new RuntimeException(e);
+//        }
+//        AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, new File(filePath));
+//        audioInputStream.close();
+//        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+//            fos.write(speechBytes);
+//        }
         return new ResponseEntity<>("File saved successfully", HttpStatus.OK);
     }
 

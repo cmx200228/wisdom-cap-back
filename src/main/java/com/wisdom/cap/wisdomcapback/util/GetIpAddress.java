@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.wisdom.cap.wisdomcapback.exception.BusinessException;
 import com.wisdom.cap.wisdomcapback.exception.BusinessExceptionEnum;
-import com.wisdom.cap.wisdomcapback.model.TO.HttpClientResult;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,14 +30,13 @@ public class GetIpAddress {
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             String ip = localHost.getHostAddress();
-            Map<String , String> params = new HashMap<>();
-            params.put("key" , key);
-            params.put("ip",ip);
-            params.put("sig" , ParameterEncryptionUtil.generateSignature(params , privateKey));
-            HttpClientResult httpClientResult = HttpClientUtils.doGet(url, params);
-            if (httpClientResult.getCode() == 200){
-                System.out.println(httpClientResult.getContent());
-                JSONObject jsonObject = JSON.parseObject(httpClientResult.getContent());
+            Map<String, String> params = new HashMap<>();
+            params.put("key", key);
+            params.put("ip", ip);
+            params.put("sig", ParameterEncryptionUtil.generateSignature(params, privateKey));
+            CloseableHttpResponse closeableHttpResponse = HttpClientUtils.doGet(url, params);
+            if (closeableHttpResponse.getStatusLine().getStatusCode() == 200) {
+                JSONObject jsonObject = JSON.parseObject(closeableHttpResponse.getEntity().getContent());
                 return jsonObject.getString("province");
             }
         } catch (Exception e) {

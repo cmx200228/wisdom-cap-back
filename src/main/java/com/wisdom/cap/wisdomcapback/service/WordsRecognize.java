@@ -3,6 +3,7 @@ package com.wisdom.cap.wisdomcapback.service;
 import com.wisdom.cap.wisdomcapback.controller.MscController;
 import com.wisdom.cap.wisdomcapback.util.CameraUtil;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,8 +36,7 @@ public class WordsRecognize {
         String image = mscController.getImage();
         System.out.println("1：" + image);
 //        调用解析json字串方法，提取文字部分，返回提取出的字串
-        String imageWords = parseImage(image);
-        return imageWords;
+        return parseImage(image);
     }
 
     /**
@@ -46,17 +46,21 @@ public class WordsRecognize {
      * @return 解析后的字符串
      */
     private static String parseImage(String json) {
-        JSONObject jsonObject = new JSONObject(json);
-        JSONArray pages = jsonObject.getJSONArray("pages");
-        StringBuilder content = new StringBuilder();
-        for (int i = 0; i < pages.length(); i++) {
-            JSONArray lines = pages.getJSONObject(i).getJSONArray("lines");
-            for (int j = 0; j < lines.length(); j++) {
-                content.append(lines.getJSONObject(j).getString("content"));
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray pages = jsonObject.getJSONArray("pages");
+            StringBuilder content = new StringBuilder();
+            for (int i = 0; i < pages.length(); i++) {
+                JSONArray lines = pages.getJSONObject(i).getJSONArray("lines");
+                for (int j = 0; j < lines.length(); j++) {
+                    content.append(lines.getJSONObject(j).getString("content"));
+                }
             }
+            System.out.println("3：" + content);
+            return content.toString();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
-        System.out.println("3：" + content);
-        return content.toString();
     }
 
 }

@@ -1,7 +1,5 @@
 package com.wisdom.cap.wisdomcapback.util;
 
-import com.wisdom.cap.wisdomcapback.model.TO.HttpClientResult;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -10,7 +8,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -46,7 +43,7 @@ public class HttpClientUtils {
      * @param url 请求地址
      * @return 响应结果
      */
-    public static HttpClientResult doGet(String url) throws Exception {
+    public static CloseableHttpResponse doGet(String url) throws Exception {
         return doGet(url, null, null);
     }
 
@@ -57,7 +54,7 @@ public class HttpClientUtils {
      * @param params 请求参数集合
      * @return 响应结果
      */
-    public static HttpClientResult doGet(String url, Map<String, String> params) throws Exception {
+    public static CloseableHttpResponse doGet(String url, Map<String, String> params) throws Exception {
         return doGet(url, null, params);
     }
 
@@ -69,7 +66,7 @@ public class HttpClientUtils {
      * @param params 请求参数集合
      * @return 响应结果
      */
-    public static HttpClientResult doGet(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
+    public static CloseableHttpResponse doGet(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
         // 创建httpClient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -101,10 +98,10 @@ public class HttpClientUtils {
 
         try {
             // 执行请求并获得响应结果
-            return getHttpClientResult(httpResponse, httpClient, httpGet);
+            return getHttpClientResult(httpClient, httpGet);
         } finally {
             // 释放资源
-            release(httpResponse, httpClient);
+            release(httpClient);
         }
     }
 
@@ -114,7 +111,7 @@ public class HttpClientUtils {
      * @param url 请求地址
      * @return 响应结果
      */
-    public static HttpClientResult doPost(String url) throws Exception {
+    public static CloseableHttpResponse doPost(String url) throws Exception {
         return doPost(url, null, null);
     }
 
@@ -125,7 +122,7 @@ public class HttpClientUtils {
      * @param params 参数集合
      * @return 响应结果
      */
-    public static HttpClientResult doPost(String url, Map<String, String> params) throws Exception {
+    public static CloseableHttpResponse doPost(String url, Map<String, String> params) throws Exception {
         return doPost(url, null, params);
     }
 
@@ -137,7 +134,7 @@ public class HttpClientUtils {
      * @param params 请求参数集合
      * @return 响应结果
      */
-    public static HttpClientResult doPost(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
+    public static CloseableHttpResponse doPost(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
         // 创建httpClient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -156,15 +153,12 @@ public class HttpClientUtils {
         // 封装请求参数
         packageParam(params, httpPost);
 
-        // 创建httpResponse对象
-        CloseableHttpResponse httpResponse = null;
-
         try {
             // 执行请求并获得响应结果
-            return getHttpClientResult(httpResponse, httpClient, httpPost);
+            return getHttpClientResult(httpClient, httpPost);
         } finally {
             // 释放资源
-            release(httpResponse, httpClient);
+            release(httpClient);
         }
     }
 
@@ -174,7 +168,7 @@ public class HttpClientUtils {
      * @param url 请求地址
      * @return 响应结果
      */
-    public static HttpClientResult doPut(String url) throws Exception {
+    public static CloseableHttpResponse doPut(String url) throws Exception {
         return doPut(url);
     }
 
@@ -185,7 +179,7 @@ public class HttpClientUtils {
      * @param params 参数集合
      * @return 响应结果
      */
-    public static HttpClientResult doPut(String url, Map<String, String> params) throws Exception {
+    public static CloseableHttpResponse doPut(String url, Map<String, String> params) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPut httpPut = new HttpPut(url);
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
@@ -193,12 +187,10 @@ public class HttpClientUtils {
 
         packageParam(params, httpPut);
 
-        CloseableHttpResponse httpResponse = null;
-
         try {
-            return getHttpClientResult(httpResponse, httpClient, httpPut);
+            return getHttpClientResult(httpClient, httpPut);
         } finally {
-            release(httpResponse, httpClient);
+            release(httpClient);
         }
     }
 
@@ -208,17 +200,16 @@ public class HttpClientUtils {
      * @param url 请求地址
      * @return 响应结果
      */
-    public static HttpClientResult doDelete(String url) throws Exception {
+    public static CloseableHttpResponse doDelete(String url) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpDelete httpDelete = new HttpDelete(url);
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
         httpDelete.setConfig(requestConfig);
 
-        CloseableHttpResponse httpResponse = null;
         try {
-            return getHttpClientResult(httpResponse, httpClient, httpDelete);
+            return getHttpClientResult(httpClient, httpDelete);
         } finally {
-            release(httpResponse, httpClient);
+            release(httpClient);
         }
     }
 
@@ -229,7 +220,7 @@ public class HttpClientUtils {
      * @param params 参数集合
      * @return 响应结果
      */
-    public static HttpClientResult doDelete(String url, Map<String, String> params) throws Exception {
+    public static CloseableHttpResponse doDelete(String url, Map<String, String> params) throws Exception {
         if (params == null) {
             params = new HashMap<>();
         }
@@ -279,40 +270,31 @@ public class HttpClientUtils {
     /**
      * Description: 获得响应结果
      *
-     * @param httpResponse
      * @param httpClient
      * @param httpMethod
      * @return
      * @throws Exception
      */
-    public static HttpClientResult getHttpClientResult(CloseableHttpResponse httpResponse,
-                                                       CloseableHttpClient httpClient, HttpRequestBase httpMethod) throws Exception {
+    public static CloseableHttpResponse getHttpClientResult(CloseableHttpClient httpClient,
+                                                            HttpRequestBase httpMethod) throws Exception {
         // 执行请求
-        httpResponse = httpClient.execute(httpMethod);
+        CloseableHttpResponse httpResponse = httpClient.execute(httpMethod);
 
         // 获取返回结果
         if (httpResponse != null && httpResponse.getStatusLine() != null) {
-            String content = "";
-            if (httpResponse.getEntity() != null) {
-                content = EntityUtils.toString(httpResponse.getEntity(), ENCODING);
-            }
-            return new HttpClientResult(httpResponse.getStatusLine().getStatusCode(), content);
+            return httpResponse;
         }
-        return new HttpClientResult(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        return null;
     }
 
     /**
      * Description: 释放资源
      *
-     * @param httpResponse
      * @param httpClient
      * @throws IOException
      */
-    public static void release(CloseableHttpResponse httpResponse, CloseableHttpClient httpClient) throws IOException {
+    public static void release(CloseableHttpClient httpClient) throws IOException {
         // 释放资源
-        if (httpResponse != null) {
-            httpResponse.close();
-        }
         if (httpClient != null) {
             httpClient.close();
         }

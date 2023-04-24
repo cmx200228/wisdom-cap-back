@@ -8,10 +8,15 @@ import org.springframework.stereotype.Service;
  * @author 86138
  */
 
+@Service("gpsService")
 public class GpsServiceImpl {
     private SerialPort serialPort;
 
+    public GpsServiceImpl() {
+    }
+
     /**
+     * 创建了有参构造器如果需要自动注入需要再添加一个无参构造器
      * 创建GpsServiceImpl构造函数
      * @param portName 指定GPS模块所连接的串口名称
      */

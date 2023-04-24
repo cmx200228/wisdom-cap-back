@@ -15,3 +15,9 @@ gaode:
     url: https://restapi.amap.com/v3/ip
 audio_frequency:
   file: AUDIO_FREQUENCY/1.wav  #音频文件存放地址,可用wav或者mp3
+xunfei:
+  tts_url: https://tts-api.xfyun.cn/v2/tts
+  tts_appid: 8627a2f9
+  tts_api_key: e0f3f05fce831621feaf4a7fdc51f61f
+  tts_api_secret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
+  tts_output_file_path: AUDIO_FREQUENCY/
