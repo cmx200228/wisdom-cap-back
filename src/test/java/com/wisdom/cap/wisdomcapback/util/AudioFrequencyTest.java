@@ -20,13 +20,14 @@ class AudioFrequencyTest {
 
     @Test
     void mp3() {
-        AudioFrequency.mp3("AUDIO_FREQUENCY/1.mp3");
+        AudioFrequency.mp3("AUDIO_FREQUENCY/1682322905208.mp3");
     }
 
     @Test
     void pcm() {
         try {
-            AudioFrequency.pcm("AUDIO_FREQUENCY/asr_test.pcm");
+            String path = "AUDIO_FREQUENCY/aa.pcm";
+            AudioFrequency.pcm("AUDIO_FREQUENCY/1682777801720.pcm");
         } catch (IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
