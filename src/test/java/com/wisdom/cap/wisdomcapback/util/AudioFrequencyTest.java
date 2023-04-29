@@ -27,7 +27,7 @@ class AudioFrequencyTest {
     void pcm() {
         try {
             String path = "AUDIO_FREQUENCY/aa.pcm";
-            AudioFrequency.pcm("AUDIO_FREQUENCY/1682322706203.pcm");
+            AudioFrequency.pcm("AUDIO_FREQUENCY/1682777801720.pcm");
         } catch (IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }

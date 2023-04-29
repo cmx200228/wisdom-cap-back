@@ -14,6 +14,10 @@ public enum BusinessExceptionEnum {
      */
     VOICE_PLAY(10002 , "语音播放错误"),
     /**
+     * 语音识别错误
+     */
+    VOICE_RECOGNIZE(10003 , "语音识别错误"),
+    /**
      * 系统错误
      */
     SYSTEM_ERROR(20001 , "系统错误");

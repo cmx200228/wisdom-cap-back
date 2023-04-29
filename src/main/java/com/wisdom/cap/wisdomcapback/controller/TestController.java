@@ -1,12 +1,15 @@
 package com.wisdom.cap.wisdomcapback.controller;
 
-import com.iflytek.cloud.speech.SpeechUtility;
+import com.wisdom.cap.wisdomcapback.exception.BusinessException;
+import com.wisdom.cap.wisdomcapback.exception.BusinessExceptionEnum;
+import com.wisdom.cap.wisdomcapback.util.AudioRecorder;
 import com.wisdom.cap.wisdomcapback.util.CameraUtil;
 import com.wisdom.cap.wisdomcapback.util.VoiceRecognizeUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
 
 /**
  * @author 陈蒙欣
@@ -24,14 +27,17 @@ public class TestController {
 
     @GetMapping("/string")
     public String getString() {
-        SpeechUtility.createUtility("appid=f590a1b8");
-        LinkedBlockingQueue linkedBlockingQueue = VoiceRecognizeUtil.voiceChangeStart();
-        String s;
+        String result;
         try {
-            s = linkedBlockingQueue.take().toString();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            AudioRecorder audioRecorder = new AudioRecorder();
+            audioRecorder.start();
+            // 5秒后停止录音
+            Thread.sleep(5000);
+            String stop = audioRecorder.stop();
+            result = VoiceRecognizeUtil.voiceChange(stop);
+        } catch (LineUnavailableException | InterruptedException | IOException e) {
+            throw new BusinessException(BusinessExceptionEnum.VOICE_RECOGNIZE);
         }
-        return s;
+        return result;
     }
 }

@@ -3,8 +3,7 @@ package com.wisdom.cap.wisdomcapback.controller;
 import com.wisdom.cap.wisdomcapback.service.impl.GpsServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 
@@ -14,14 +13,15 @@ import javax.annotation.Resource;
  */
 
 @Controller
-@RequestMapping("/GPS")
 public class GpsController {
     @Resource
     private GpsServiceImpl gpsService;
 
-    /*实例化GpsServiceImpl<串口名称为“/dev/ttyACM0”,这通常是Linux系统下用于连接串口设备的默认名称>*/
+    /**
+     * 实例化GpsServiceImpl<串口名称为“/dev/ttyUSB0”
+     * */
     public GpsController() {
-        gpsService = new GpsServiceImpl("/dev/ttyACM0");
+        gpsService = new GpsServiceImpl("/dev/ttyUSB0");
     }
 
     /**
@@ -29,7 +29,7 @@ public class GpsController {
      * @param model
      * @return
      */
-    @PutMapping ()
+    @GetMapping("gps")
     public String index(Model model) {
         String gpsData = gpsService.readGPSData();
         model.addAttribute("gpsData", gpsData);
