@@ -1,0 +1,24 @@
+server:
+  port: 18762
+image:
+  path: IMAGE/pic1.jpg #原图片存放地址
+  api_key: e0f3f05fce831621feaf4a7fdc51f61f
+  api_secret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
+  api_id: 8627a2f9
+  request_url: https://cn-east-1.api.xf-yun.com/v1/ocr
+gaode:
+  key: ec8868d8d9367d24f98fa85b8b7bf1ba
+  #  key: b4f9898b8ace11e151704827346ea63b
+  url: https://lbs.amap.com/api/webservice/guide/api/georegeov
+  private_key: db7cb4bcafa68eeb480c4a9eec13e1d7
+  ip:
+    url: https://restapi.amap.com/v3/ip
+audio_frequency:
+  file: AUDIO_FREQUENCY/1.wav  #音频文件存放地址,可用wav或者mp3
+xunfei:
+  tts_url: https://tts-api.xfyun.cn/v2/tts
+  tts_appid: 8627a2f9
+  tts_api_key: e0f3f05fce831621feaf4a7fdc51f61f
+  tts_api_secret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
+  tts_output_file_path: AUDIO_FREQUENCY
+
