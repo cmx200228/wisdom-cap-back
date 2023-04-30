@@ -175,11 +175,12 @@
         </dependency>
 
         <!--GPS定位依赖-->
-        <dependency>
-            <groupId>com.fazecast</groupId>
-            <artifactId>jSerialComm</artifactId>
-            <version>2.7.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.fazecast</groupId>-->
+<!--            <artifactId>jSerialComm</artifactId>-->
+<!--            <version>2.6.2</version>-->
+<!--        </dependency>-->
+
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>

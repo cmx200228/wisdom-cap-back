@@ -8,19 +8,24 @@ public enum BusinessExceptionEnum {
     /**
      * 语音合成错误
      */
-    VOICE_EXECUTION(10001 , "语音合成错误"),
+    VOICE_EXECUTION(10001, "语音合成错误"),
     /**
      * 语音播放错误
      */
-    VOICE_PLAY(10002 , "语音播放错误"),
+    VOICE_PLAY(10002, "语音播放错误"),
     /**
      * 语音识别错误
      */
-    VOICE_RECOGNIZE(10003 , "语音识别错误"),
+    VOICE_RECOGNIZE(10003, "语音识别错误"),
+    /**
+     * GPS读取错误
+     */
+    GPS_READ(10004, "GPS读取错误"),
     /**
      * 系统错误
      */
-    SYSTEM_ERROR(20001 , "系统错误");
+    SYSTEM_ERROR(20001, "系统错误"),
+    ;
 
     /**
      * 错误码
