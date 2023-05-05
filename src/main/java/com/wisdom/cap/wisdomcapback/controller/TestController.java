@@ -29,10 +29,13 @@ public class TestController {
     public String getString() {
         String result;
         try {
+            //新建录音对象
             AudioRecorder audioRecorder = new AudioRecorder();
+            //开始录音
             audioRecorder.start();
             // 5秒后停止录音
             Thread.sleep(5000);
+            //停止录音，返回录音文件路径
             String stop = audioRecorder.stop();
             result = VoiceRecognizeUtil.voiceChange(stop);
         } catch (LineUnavailableException | InterruptedException | IOException e) {

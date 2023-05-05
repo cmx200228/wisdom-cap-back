@@ -21,4 +21,6 @@ xunfei:
   tts_api_key: e0f3f05fce831621feaf4a7fdc51f61f
   tts_api_secret: MTg3ZTRjYTkwZWJlM2MwNDAyZTQzNjIy
   tts_output_file_path: AUDIO_FREQUENCY
+navigation:
+  url: 47.113.151.45:17283/navigation/getNavigation #导航接口地址,参数为origin（起点），destination（终点），post方式
 

@@ -33,6 +33,8 @@ public class AudioRecorder {
     private static Date begin;
     private static Date end;
 
+    private Thread thread;
+
     /**
      * 初始化，创建录音对象
      * @throws LineUnavailableException 线路不可用异常
@@ -54,7 +56,7 @@ public class AudioRecorder {
         line.start();
         System.out.println("开始录音");
         begin = new Date();
-        Thread thread = new Thread(() -> {
+        thread = new Thread(() -> {
             byte[] buffer = new byte[BUFFER_SIZE];
             while (true) {
                 int bytesRead = line.read(buffer, 0, BUFFER_SIZE);
@@ -80,6 +82,7 @@ public class AudioRecorder {
         line.stop();
         line.close();
         outputStream.close();
+        thread.interrupt();
         return saveToFile;
     }
 
